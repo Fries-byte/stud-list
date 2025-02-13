@@ -2,8 +2,8 @@
 *   ptd::main
 *   Contains the core interpreter logic.
 '''
+
 variables = {}
-functions = {}
 windows = {}
 buttons = {}
 custom_keys = {}
