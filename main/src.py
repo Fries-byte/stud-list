@@ -51,6 +51,46 @@ def fn(name=None, variable=None, code=None):
     else:
         print(f"Function '{name}' not found.")
 
+def if_stmt(var, value, code_if, code_else=None):
+    if var in variables:
+        if variables[var] == value:
+            try:
+                for line in code_if:
+                    if callable(line): 
+                        line()
+                    else:
+                        exec(line.strip(), globals())
+            except Exception as e:
+                print(f"Error in if condition block: {e}")
+        elif code_else:
+            try:
+                for line in code_else:
+                    if callable(line):
+                        line()
+                    else:
+                        exec(line.strip(), globals())
+            except Exception as e:
+                print(f"Error in else condition block: {e}")
+    else:
+        print(f"Error: Variable '{var}' not found.")
+
+def loop(code, n):
+    if n == 0:
+        while True:
+            execute_main(code)
+    else:
+        for _ in range(n):
+            execute_main(code)
+
+def catch(code, error_handler):
+    try:
+        exec(code, globals())
+    except Exception as e:
+        error_message = str(e)
+        for line in error_handler:
+            line = line.replace("{!error!}", "Error Found").replace("{!reason!}", error_message)
+            exec(line, globals())
+
 def execute_main(code):  
     line_num = 0
     for line in code.splitlines():
