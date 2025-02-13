@@ -2,6 +2,7 @@
 *    interpret
 '''
 
+functions = {}
 def fn(name=None, variable=None, code=None):
     if name and code:
         lines = [line.strip() for line in code.strip().splitlines() if line.strip()]
