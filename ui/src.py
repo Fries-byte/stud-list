@@ -31,3 +31,23 @@ def cb(windowname, geo, size, name):
         windows[f"{windowname}_{name}_button"] = button
     else:
         print(f"Error: Window '{windowname}' not found.")
+
+def bc(name, code):
+    for key, button in windows.items():
+        if key.endswith(f"_{name}_button"):
+            def on_click():
+                for line in code:
+                    line = line.strip()
+                    if line.startswith("fn("):
+                        func_name = line[3:-1]
+                        if func_name in functions:
+                            for func_line in functions[func_name]:
+                                exec(func_line.strip(), globals())
+                        else:
+                            print(f"Error: Function '{func_name}' not found.")
+                    else:
+                        print(f"Error: Invalid code '{line}'.")
+            button.config(command=on_click)
+            print(f"Click event bound to button '{name}'.")
+            return
+    print(f"Error: Button '{name}' not found.")
