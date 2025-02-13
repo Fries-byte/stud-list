@@ -32,6 +32,12 @@ def cb(windowname, geo, size, name):
     else:
         print(f"Error: Window '{windowname}' not found.")
 
+def wl(wname):
+    if wname in windows:
+        windows[wname].mainloop()
+    else:
+        print(f"Error: Window '{wname}' not found.")
+
 def bc(name, code):
     for key, button in windows.items():
         if key.endswith(f"_{name}_button"):
