@@ -2,6 +2,11 @@
 *   ptd::main
 *   Contains the core interpreter logic.
 '''
+variables = {}
+functions = {}
+windows = {}
+buttons = {}
+custom_keys = {}
 
 def pln(text, *args):  # Define print
     text = text.replace("*n", "\n")
