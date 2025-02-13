@@ -91,6 +91,31 @@ def catch(code, error_handler):
             line = line.replace("{!error!}", "Error Found").replace("{!reason!}", error_message)
             exec(line, globals())
 
+def define(name, value=None, type="none", separator=None, trigger=None, output=None):
+    if type not in ["none", "spaced"]:
+        print(f"Error: Invalid type '{type}'. Must be 'none' or 'spaced'.")
+        return
+    
+    if type == "spaced" and not separator:
+        print("Error: Separator is required for 'spaced' type.")
+        return
+    
+    if not output:
+        print("Error: Output command is required.")
+        return
+    
+    def custom_command(*args):
+        if value:
+            variables[name] = value
+        elif args:
+            variables[name] = args[0]
+        exec(output.replace(f"{{{name}}}", str(variables[name])), globals())
+    
+    if trigger:
+        custom_keys[trigger] = custom_command
+    else:
+        custom_keys[name] = custom_command
+
 def execute_main(code):  
     line_num = 0
     for line in code.splitlines():
